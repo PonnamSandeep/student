@@ -167,16 +167,20 @@ public class CollegeServiceImpl implements CollegeService {
 
     @Override
     public String removeBranchFromCollege(String collegeCode, String branchCode) {
-        if(null != branchCode){
+        Optional<CollegeEntity> collegeEntity = collegeRepository.findById(collegeCode);
+        if (collegeEntity.isPresent()){
+            List<BranchEntity> branchDetails = collegeEntity.get().getBranchDetails();
+            if(null != branchCode){
             Optional<BranchEntity> branchEntity = branchRepository.findById(branchCode);
-            branchRepository.delete(branchEntity.get());
-            if(branchRepository.findById(branchCode).isEmpty()){
+            if (branchDetails.contains(branchEntity.get())){
+            branchDetails.remove(branchEntity.get());
+            collegeEntity.get().setBranchDetails(branchDetails);
+            collegeRepository.save(collegeEntity.get());
                 return "branch deleted from college";
             }
-            else {
-                return "unable to delete branch";
-            }
+                return "there is no such branch in college";
         }
-        return "there is no such branch in college";
+        return "branch shouldn't null";
     }
-}
+        return "College not found";
+}}

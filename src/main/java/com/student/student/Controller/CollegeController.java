@@ -37,8 +37,8 @@ public class CollegeController {
     private String updateBranchForCollege(@RequestBody final BranchModel branchModel, @RequestParam final String code) {
         return collegeService.updateBranchForCollege(branchModel,code);
     }
-    @DeleteMapping("/{branchCode}")
-    private String removeBranch(@PathVariable(value = "branchCode") final String remove, final String delete){
-        return collegeService.removeBranchFromCollege(remove,delete);
+    @DeleteMapping("/college/remove")
+    private String removeBranch(@RequestParam final String collegeCode,@RequestParam final String branchCode){
+        return collegeService.removeBranchFromCollege(collegeCode,branchCode);
     }
 }
