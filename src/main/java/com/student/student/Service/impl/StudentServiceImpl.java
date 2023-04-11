@@ -3,6 +3,7 @@ package com.student.student.Service.impl;
 import com.student.student.Entity.BranchEntity;
 import com.student.student.Entity.CollegeEntity;
 import com.student.student.Entity.StudentEntity;
+import com.student.student.Exception.InvalidDetailsException;
 import com.student.student.Exception.InvalidStudentDetailsException;
 import com.student.student.Exception.StudentNotFoundException;
 import com.student.student.Model.BranchModel;
@@ -77,7 +78,7 @@ public class StudentServiceImpl implements StudentService {
           }
       }
       else {
-      return "please provide valid branch";
+      throw new InvalidDetailsException("please provide valid branch");
       }
       }
       else {
