@@ -1,18 +1,20 @@
 package com.student.student.Service.impl;
 
 import com.student.student.Entity.*;
+import com.student.student.Exception.*;
 import com.student.student.Model.BranchModel;
 import com.student.student.Model.FacultyModel;
-import com.student.student.Model.StudentModel;
 import com.student.student.Model.SubjectModel;
 import com.student.student.Repository.BranchRepository;
 import com.student.student.Repository.FacultyRepository;
 import com.student.student.Repository.SubjectRepository;
 import com.student.student.Service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class SubjectServiceImpl implements SubjectService {
     @Autowired
     private SubjectRepository subjectRepository;
@@ -22,32 +24,29 @@ public class SubjectServiceImpl implements SubjectService {
     private BranchRepository branchRepository;
     @Override
     public String createSubject(SubjectModel subjectModel) {
-        Optional<SubjectEntity> subjectEntity = subjectRepository.findById(subjectModel.getSubjectCode());
-        if(subjectEntity.isEmpty()){
+        Optional<SubjectEntity> subject = subjectRepository.findById(subjectModel.getSubjectCode());
+        if(subject.isEmpty()){
             if(null != subjectModel.getSubjectCode() && null != subjectModel.getName()){
-                subjectEntity.get().setSubjectCode(subjectModel.getSubjectCode());
-                subjectEntity.get().setName(subjectModel.getName());
+                SubjectEntity subjectEntity = new SubjectEntity();
+                subjectEntity.setSubjectCode(subjectModel.getSubjectCode());
+                subjectEntity.setName(subjectModel.getName());
                 if (null != subjectModel.getFacultyDetails()){
-                    List<FacultyModel> facultyModels = (List<FacultyModel>) subjectModel.getFacultyDetails();
-                    List<FacultyEntity> facultyEntities = new ArrayList<>();
-                    for (FacultyModel faculty : facultyModels){
+                    FacultyModel facultyModels = subjectModel.getFacultyDetails();
                         FacultyEntity facultyEntity = new FacultyEntity();
-                        facultyEntity.setId(faculty.getId());
-                        facultyEntity.setName(faculty.getName());
-                        facultyEntity.setPhoneNo(faculty.getPhoneNo());
-                        facultyEntity.setSalary(faculty.getSalary());
-                        facultyEntities.add(facultyEntity);
-                    }
-                    facultyRepository.saveAll(facultyEntities);
+                        facultyEntity.setId(facultyModels.getId());
+                        facultyEntity.setName(facultyModels.getName());
+                        facultyEntity.setPhoneNo(facultyModels.getPhoneNo());
+                        facultyEntity.setSalary(facultyModels.getSalary());
+                    facultyRepository.save(facultyEntity);
                 }
-                subjectRepository.save(subjectEntity.get());
+                subjectRepository.save(subjectEntity);
                 return "subject created";
             }
             else {
-                return "please enter valid details";
+                throw new InvalidDetailsException("please enter valid details");
             }
         }
-        return "subject already existed";
+        throw new AlreadyExistsException("subject already existed");
     }
 
     @Override
@@ -79,20 +78,22 @@ public class SubjectServiceImpl implements SubjectService {
     public List<SubjectModel> getAllSubjectsForBranch(String branchCode) {
         Optional<BranchEntity> branch = branchRepository.findById(branchCode);
         if(branch.isPresent()){
-            List<SubjectEntity> subjectEntities = (List<SubjectEntity>) branch.get().getSubjectDetails();
             if(null != branch.get().getSubjectDetails()){
+                Set<SubjectEntity> subjectEntities = branch.get().getSubjectDetails();
                 List<SubjectModel> subjectModels = new ArrayList<>();
                 for (SubjectEntity subject : subjectEntities){
                     SubjectModel subjectModel = new SubjectModel();
                     subjectModel.setSubjectCode(subject.getSubjectCode());
                     subjectModel.setName(subject.getName());
                         FacultyEntity facultyEntity = subject.getFacultyDetails();
-                        FacultyModel facultyModel = new FacultyModel();
-                        facultyModel.setId(facultyEntity.getId());
-                        facultyModel.setName(facultyEntity.getName());
-                        facultyModel.setSalary(facultyEntity.getSalary());
-                        facultyModel.setPhoneNo(facultyEntity.getPhoneNo());
-                        subjectModel.setFacultyDetails(facultyModel);
+                        if(null != facultyEntity) {
+                            FacultyModel facultyModel = new FacultyModel();
+                            facultyModel.setId(facultyEntity.getId());
+                            facultyModel.setName(facultyEntity.getName());
+                            facultyModel.setSalary(facultyEntity.getSalary());
+                            facultyModel.setPhoneNo(facultyEntity.getPhoneNo());
+                            subjectModel.setFacultyDetails(facultyModel);
+                        }
                         subjectModels.add(subjectModel);
                     }
                 return subjectModels;
@@ -108,7 +109,7 @@ public class SubjectServiceImpl implements SubjectService {
     public String updateFacultyForSubject(FacultyModel facultyModel, String subjectCode) {
         Optional<SubjectEntity> subjectEntity = subjectRepository.findById(subjectCode);
         if (subjectEntity.isPresent()) {
-            List<FacultyEntity> facultyEntities = (List<FacultyEntity>) subjectEntity.get().getFacultyDetails();
+            FacultyEntity facultyEntities = subjectEntity.get().getFacultyDetails();
             List<SubjectEntity> subjectEntities = new ArrayList<>();
             FacultyEntity facultyEntity = new FacultyEntity();
             if (null != facultyModel.getId()) {
@@ -122,27 +123,29 @@ public class SubjectServiceImpl implements SubjectService {
             }
             if(null != facultyModel.getSalary()){
                 facultyEntity.setSalary(facultyModel.getSalary());
-                facultyEntities.add(facultyEntity);
+                facultyEntities = facultyEntity;
             }
-            subjectEntity.get().setFacultyDetails((FacultyEntity) facultyEntities);
+            subjectEntity.get().setFacultyDetails(facultyEntities);
             subjectEntities.add(subjectEntity.get());
             subjectRepository.saveAll(subjectEntities);
+            return "Updated";
         }
-        return "there is no such subject";
+        throw new DoesnotExitsException("there is no such subject");
     }
 
     @Override
-    public String removeFacultyFromSubject(String facultyCode, String subjectCode) {
+    public String removeFacultyFromSubject(String subjectCode, String facultyCode) {
         Optional<SubjectEntity> subjectEntity = subjectRepository.findById(subjectCode);
         if (subjectEntity.isPresent()) {
-            List<FacultyEntity> facultyEntities = (List<FacultyEntity>) subjectEntity.get().getFacultyDetails();
-            for (FacultyEntity faculty : facultyEntities) {
+            FacultyEntity faculty = subjectEntity.get().getFacultyDetails();
                 if (facultyCode.equals(faculty.getId())) {
+                    subjectEntity.get().setFacultyDetails(null);
+                    subjectRepository.save(subjectEntity.get());
                     facultyRepository.delete(faculty);
-                }
+                    return "deleted";
             }
         }
-        return "there is no such faculty";
+        throw new DoesnotExitsException("there is no such faculty");
     }
 
     @Override
@@ -154,29 +157,25 @@ public class SubjectServiceImpl implements SubjectService {
                 return "subject is deleted";
             }
             else {
-                return "unable to delete subject";
+                throw new FailedException("unable to delete subject");
             }
         }
-        return "there is no such subject";
+        throw new DoesnotExitsException("there is no such subject");
     }
 
     @Override
-    public List<BranchModel> getBranchForSubject(String subjectCode) {
+    public BranchModel getBranchForSubject(String subjectCode) {
         Optional<SubjectEntity> subject = subjectRepository.findById(subjectCode);
         if(subject.isPresent()){
-            List<BranchEntity> branchEntities = (List<BranchEntity>) subject.get().getBranchDetails();
+           BranchEntity branch = subject.get().getBranchDetails();
             if(null != subject.get().getBranchDetails()){
-                List<BranchModel> branchModels = new ArrayList<>();
-                for(BranchEntity branch : branchEntities){
                     BranchModel branchModel = new BranchModel();
                     branchModel.setBranchCode(branch.getBranchCode());
                     branchModel.setName(branch.getName());
-                    branchModels.add(branchModel);
-                }
-                return branchModels;
+                return branchModel;
             }
-            return null;
+            throw new DoesnotExitsException("Branch doesn't exist");
         }
-        return null;
+        throw new DoesnotExitsException("Subject doesn't exist");
     }
 }

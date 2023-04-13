@@ -28,12 +28,12 @@ public class CollegeController {
     private List<BranchModel> getBranchForCollege(@PathVariable(value = "code") final String collageCode) {
         return collegeService.getBranchForCollege(collageCode);
     }
-    @GetMapping("/{id}/faculty")
-    private FacultyModel getFacultyById(@PathVariable(value = "id") final String id) {
-        return collegeService.getFacultyById(id);
+    @GetMapping("/{code}/faculty")
+    private List<FacultyModel> getFacultyForCollege(@PathVariable(value = "code") final String code) {
+        return collegeService.getFacultyForCollege(code);
     }
 
-    @PutMapping("/updateSubject")
+    @PutMapping("/updateBranch")
     private String updateBranchForCollege(@RequestBody final BranchModel branchModel, @RequestParam final String code) {
         return collegeService.updateBranchForCollege(branchModel,code);
     }

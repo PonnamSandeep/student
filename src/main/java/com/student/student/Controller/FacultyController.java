@@ -30,12 +30,12 @@ public class FacultyController {
     }
 
     @PutMapping("/updateSubject")
-    private String updateSubject(@RequestBody final SubjectModel subjectModel, @RequestParam final String id) {
+        private String updateSubject(@RequestBody final SubjectModel subjectModel, @RequestParam final String id) {
         return facultyService.updateSubjectForFaculty(subjectModel,id);
     }
 
-    @DeleteMapping("/{facultyId}")
-    private String removeSubject(@PathVariable(value = "facultyId") final String facultyId, final String subjectCode) {
+    @DeleteMapping("/jbjbjb")
+    private String removeSubject(@PathVariable(value = "subjectCode") final String facultyId, final String subjectCode) {
         return facultyService.removeSubjectForFaculty(facultyId,subjectCode);
     }
     @DeleteMapping("/{id}")
@@ -47,9 +47,4 @@ public class FacultyController {
     private ResponseEntity<Object> getSubjects(@PathVariable(value = "id") final String id) {
         return facultyService.getSubjectsForFaculty(id);
     }
-
-//    @GetMapping("/getStudents")
-//    private List<StudentModel> getStudents(@PathVariable(value = "getStudents") final String code) {
-//        return facultyService.getStudentsForFaculty(code);
-//    }
 }
