@@ -1,0 +1,877 @@
+{
+	"info": {
+		"_postman_id": "b4bab2d8-0d64-4d1a-a5dd-09386e09a573",
+		"name": "Student Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetStudentById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Students/401",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Students",
+						"401"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"id\" : \"401\",\r\n   \"name\" : \"Radha\",\r\n   \"year\" : \"2\",\r\n   \"password\" : \"******\",\r\n   \"collegeCode\" : \"BBCIT\",\r\n   \"branchDetails\" : {\r\n       \"branchCode\" : \"MSC_STATS\",\r\n       \"name\" : \"STATISTICS\"\r\n   } \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Students/reg",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Students",
+						"reg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN STUDENT",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Students/login?id=401&password=******",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Students",
+						"login"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "401"
+						},
+						{
+							"key": "password",
+							"value": "******"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE STUDENT",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Students/login?id=401&password=******",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Students",
+						"login"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "401"
+						},
+						{
+							"key": "password",
+							"value": "******"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE STUDENT",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Students/login?id=401&password=******",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Students",
+						"login"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "401"
+						},
+						{
+							"key": "password",
+							"value": "******"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCollege",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"collageCode\": \"BBCIT\",\r\n   \"name\" : \"BANKATLAL BADRUKA COLLEGE OF INFORMATION AND TECHNOLOGY\",\r\n   \"branchDetails\" : [\r\n       {\r\n           \"branchCode\" : \"MSC_STATS\",\r\n           \"name\" : \"STATISTICS\"\r\n       },\r\n        {\r\n           \"branchCode\" : \"MSC_CS\",\r\n           \"name\" : \"COMPUTER SCIENCE\"\r\n       }\r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/college/createCollege",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"college",
+						"createCollege"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET COLLEGE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/college/BBCIT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"college",
+						"BBCIT"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET BRANCH",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/college/BBCIT/branch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"college",
+						"BBCIT",
+						"branch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET FACULTY",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/college/BBCIT/faculty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"college",
+						"BBCIT",
+						"faculty"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE BRANCH",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"branchCode\" : \"MCE\",\r\n    \"name\" : \"CIVIL\",\r\n    \"subjectDetails\" : [\r\n        {\r\n            \"subjectCode\" : \"SAND\",\r\n            \"name\" : \"SandEngineering\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/college/updateBranch?code=BBCIT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"college",
+						"updateBranch"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "BBCIT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "REMOVE Branch from COLLEGE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/college/college/remove?collegeCode=BBCIT&branchCode=MCE",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"college",
+						"college",
+						"remove"
+					],
+					"query": [
+						{
+							"key": "collegeCode",
+							"value": "BBCIT"
+						},
+						{
+							"key": "branchCode",
+							"value": "MCE"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE BRANCH",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"branchCode\" : \"BCOM\",\r\n    \"name\" : \"General\",\r\n    \"subjectDetails\" : [\r\n        {\r\n           \"subjectCode\" : \"ECMS\",\r\n            \"name\" : \"Economics\"\r\n            },\r\n            {\r\n           \"subjectCode\" : \"CMS\",\r\n            \"name\" : \"Commerce\"\r\n            },\r\n            {\r\n           \"subjectCode\" : \"BS\",\r\n            \"name\" : \"Business\"\r\n            }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/branch/createBranch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"branch",
+						"createBranch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET BRANCH",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/branch/BCOM",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"branch",
+						"BCOM"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET BRANCH FOR COLLEGE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/branch/BBCIT/college",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"branch",
+						"BBCIT",
+						"college"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE SUBJECT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n           \"subjectCode\" : \"ECMS\",\r\n            \"name\" : \"Economics\",\r\n            \"facultyDetails\" : {\r\n                \"id\" : \"101\",\r\n                \"name\": \"Mahesh\",\r\n                \"phoneNo\" : \"9959624782\",\r\n                \"salary\" : \"33333\"\r\n            }\r\n            }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/branch/updateSubject?branchCode=MSC_STATS",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"branch",
+						"updateSubject"
+					],
+					"query": [
+						{
+							"key": "branchCode",
+							"value": "MSC_STATS"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE SUBJECT FROM BRANCH",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n           \"subjectCode\" : \"ECMS\",\r\n            \"name\" : \"Economics\",\r\n            \"facultyDetails\" : {\r\n                \"id\" : \"101\",\r\n                \"name\": \"Mahesh\",\r\n                \"phoneNo\" : \"9959624782\",\r\n                \"salary\" : \"33333\"\r\n            }\r\n            }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/branch/subject/remove?subjectCode=CMS&branchCode=BCOM",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"branch",
+						"subject",
+						"remove"
+					],
+					"query": [
+						{
+							"key": "subjectCode",
+							"value": "CMS"
+						},
+						{
+							"key": "branchCode",
+							"value": "BCOM"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE BRANCH FROM COLLEGE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/branch/removeBranchFromCollege?collegeCode=BBCIT&branchCode=MCE",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"branch",
+						"removeBranchFromCollege"
+					],
+					"query": [
+						{
+							"key": "collegeCode",
+							"value": "BBCIT"
+						},
+						{
+							"key": "branchCode",
+							"value": "MCE"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Branch",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/branch/MSC_CS",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"branch",
+						"MSC_CS"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET COLLEGES",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/branch/getColleges?branchCode=MSC_STATS",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"branch",
+						"getColleges"
+					],
+					"query": [
+						{
+							"key": "branchCode",
+							"value": "MSC_STATS"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET STUDENTS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/branch/getStudents?branchCode=MSC_STATS",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"branch",
+						"getStudents"
+					],
+					"query": [
+						{
+							"key": "branchCode",
+							"value": "MSC_STATS"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "REMOVE SUBJECT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n           \"subjectCode\" : \"ECMS\",\r\n            \"name\" : \"Economics\",\r\n            \"facultyDetails\" : {\r\n                \"id\" : \"101\",\r\n                \"name\": \"Mahesh\",\r\n                \"phoneNo\" : \"9959624782\",\r\n                \"salary\" : \"33333\"\r\n            }\r\n            }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/branch/updateSubject?branchCode=MSC_STATS",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"branch",
+						"updateSubject"
+					],
+					"query": [
+						{
+							"key": "branchCode",
+							"value": "MSC_STATS"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE FACULTY",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : \"105\",\r\n    \"name\" : \"Diksha\",\r\n    \"phoneNo\" : \"9969525282\",\r\n    \"salary\" : \"33333\",\r\n    \"subjects\" : [\r\n        {\r\n            \"subjectCode\" : \"CLOUD\",\r\n            \"name\" : \"MSAZURE\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/faculty/createFaculty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"faculty",
+						"createFaculty"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET FACULTY",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/faculty/105",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"faculty",
+						"105"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "REMOVE FACULTY",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/faculty/105",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"faculty",
+						"105"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET FACULTY FOR BRANCHES",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/faculty/updateSubject?id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"faculty",
+						"updateSubject"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE SUBJECT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"subjectCode\" : \"DS\",\r\n    \"name\" : \"DataScience\",\r\n    \"facultyDetails\" :\r\n    {\r\n         \"id\" : \"103\",\r\n    \"name\" : \"Lokeshwari\",\r\n    \"phoneNo\" : \"9952695282\",\r\n    \"salary\" : \"33333\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/subject/createSubject",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subject",
+						"createSubject"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET SUBJECT BY CODE",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"subjectCode\" : \"DS\",\r\n    \"name\" : \"DataScience\",\r\n    \"facultyDetails\" :\r\n    {\r\n         \"id\" : \"103\",\r\n    \"name\" : \"Lokeshwari\",\r\n    \"phoneNo\" : \"9952695282\",\r\n    \"salary\" : \"33333\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/subject/DS",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subject",
+						"DS"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET SUBJECT BY BRANCH",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"subjectCode\" : \"DS\",\r\n    \"name\" : \"DataScience\",\r\n    \"facultyDetails\" :\r\n    {\r\n         \"id\" : \"103\",\r\n    \"name\" : \"Lokeshwari\",\r\n    \"phoneNo\" : \"9952695282\",\r\n    \"salary\" : \"33333\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/subject/BCOM/branch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subject",
+						"BCOM",
+						"branch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE FACULTY FOR SUBJECT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : \"105\",\r\n    \"name\" : \"Dikshitha\",\r\n    \"phoneNo\" : \"9969525282\",\r\n    \"salary\" : \"33333\",\r\n    \"subjects\" : [\r\n        {\r\n            \"subjectCode\" : \"DS\",\r\n            \"name\" : \"DataScience\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/subject/updateFaculty?subjectCode=DS",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subject",
+						"updateFaculty"
+					],
+					"query": [
+						{
+							"key": "subjectCode",
+							"value": "DS"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "REMOVE FACULTY",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"subjectCode\" : \"DS\",\r\n    \"name\" : \"DataScience\",\r\n    \"facultyDetails\" :\r\n    {\r\n         \"id\" : \"103\",\r\n    \"name\" : \"Lokeshwari\",\r\n    \"phoneNo\" : \"9952695282\",\r\n    \"salary\" : \"33333\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/subject/BCOM/branch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subject",
+						"BCOM",
+						"branch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET BRANCH FOR SUBJECT",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"subjectCode\" : \"DS\",\r\n    \"name\" : \"DataScience\",\r\n    \"facultyDetails\" :\r\n    {\r\n         \"id\" : \"103\",\r\n    \"name\" : \"Lokeshwari\",\r\n    \"phoneNo\" : \"9952695282\",\r\n    \"salary\" : \"33333\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/subject/BCOM/branch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subject",
+						"BCOM",
+						"branch"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
