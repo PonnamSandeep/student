@@ -1,11 +1,14 @@
 package com.student.student.Service.impl;
 
 import com.student.student.Entity.*;
+import com.student.student.Exception.*;
 import com.student.student.Model.*;
 import com.student.student.Repository.BranchRepository;
 import com.student.student.Repository.CollegeRepository;
 import com.student.student.Repository.FacultyRepository;
+import com.student.student.Repository.SubjectRepository;
 import com.student.student.Service.CollegeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +21,17 @@ public class CollegeServiceImpl implements CollegeService {
     @Autowired
     private FacultyRepository facultyRepository;
     @Autowired
+    private SubjectRepository subjectRepository;
+    @Autowired
     private BranchRepository branchRepository;
     @Override
     public String createCollege(CollegeModel collegeModel) {
-        Optional<CollegeEntity> collegeEntity = collegeRepository.findById(collegeModel.getCollageCode());
-        if (collegeEntity.isEmpty()) {
+        Optional<CollegeEntity> college = collegeRepository.findById(collegeModel.getCollageCode());
+        if (college.isEmpty()) {
             if (null != collegeModel.getCollageCode() && null != collegeModel.getName()) {
-                collegeEntity.get().setCollageCode(collegeModel.getCollageCode());
-                collegeEntity.get().setName(collegeModel.getName());
+                CollegeEntity collegeEntity = new CollegeEntity();
+                collegeEntity.setCollageCode(collegeModel.getCollageCode());
+                collegeEntity.setName(collegeModel.getName());
                 if (null != collegeModel.getBranchDetails()) {
                     List<BranchModel> branchModels = collegeModel.getBranchDetails();
                     List<BranchEntity> branchEntities = new ArrayList<>();
@@ -33,17 +39,18 @@ public class CollegeServiceImpl implements CollegeService {
                         BranchEntity branchEntity = new BranchEntity();
                         branchEntity.setBranchCode(branch.getBranchCode());
                         branchEntity.setName(branch.getName());
+                        branchEntities.add(branchEntity);
                     }
-                    collegeEntity.get().setBranchDetails(branchEntities);
+                    collegeEntity.setBranchDetails(branchEntities);
                 branchRepository.saveAll(branchEntities);
                 }
-                collegeRepository.save(collegeEntity.get());
+                collegeRepository.save(collegeEntity);
                 return "college created";
             } else {
-                return "please enter valid details";
+                throw new InvalidDetailsException("please enter valid details");
             }
         }
-        return "college already existed";
+        throw new AlreadyExistsException("college already existed");
     }
 
     @Override
@@ -54,13 +61,14 @@ public class CollegeServiceImpl implements CollegeService {
             CollegeModel collegeModel = new CollegeModel();
             collegeModel.setCollageCode(collegeEntity.get().getCollageCode());
             collegeModel.setName(collegeEntity.get().getName());
-            if (null != collegeModel.getBranchDetails()) {
-                List<BranchModel> branchModels = collegeModel.getBranchDetails();
-                List<BranchEntity> branchEntities = new ArrayList<>();
-                for (BranchModel branch : branchModels) {
-                    BranchEntity branchEntity = new BranchEntity();
-                    branchEntity.setBranchCode(branch.getBranchCode());
-                    branchEntity.setName(branch.getName());
+            if (null != collegeEntity.get().getBranchDetails()) {
+                List<BranchModel> branchModels = new ArrayList<>();
+                List<BranchEntity> branchEntities = collegeEntity.get().getBranchDetails();
+                for (BranchEntity branch : branchEntities) {
+                    BranchModel branchModel = new BranchModel();
+                    branchModel.setBranchCode(branch.getBranchCode());
+                    branchModel.setName(branch.getName());
+                    branchModels.add(branchModel);
                 }
                 collegeModel.setBranchDetails(branchModels);
                 collegeModels.add(collegeModel);
@@ -111,26 +119,21 @@ public class CollegeServiceImpl implements CollegeService {
     }
 
     @Override
-    public FacultyModel getFacultyById(String Id) {
-        Optional<FacultyEntity> faculty = facultyRepository.findById(Id);
-        if (faculty.isPresent()) {
-            FacultyModel facultyModel = new FacultyModel();
-            facultyModel.setId(faculty.get().getId());
-            facultyModel.setName(faculty.get().getName());
-            facultyModel.setPhoneNo(faculty.get().getPhoneNo());
-            facultyModel.setSalary(faculty.get().getSalary());
-            if (null != faculty.get().getSubjects()) {
-                Set<SubjectEntity> subjectDetails = faculty.get().getSubjects();
-                Set<SubjectModel> subjectModels = new HashSet<>();
-                for (SubjectEntity subject : subjectDetails) {
-                    SubjectModel subjectModel = new SubjectModel();
-                    subjectModel.setSubjectCode(subject.getSubjectCode());
-                    subjectModel.setName(subject.getName());
-                    subjectModels.add(subjectModel);
+    public List<FacultyModel> getFacultyForCollege(String code) {
+        Optional<CollegeEntity> collegeEntity = collegeRepository.findById(code);
+        List<FacultyModel> facultyModelList = new ArrayList<>();
+        if (collegeEntity.isPresent()) {
+            List<BranchEntity> branchDetails = collegeEntity.get().getBranchDetails();
+            for (BranchEntity branch : branchDetails){
+                Set<SubjectEntity> subjectDetails = branch.getSubjectDetails();
+                for (SubjectEntity subject : subjectDetails){
+                    FacultyEntity facultyDetails = subject.getFacultyDetails();
+                    FacultyModel facultyModel = new FacultyModel();
+                    BeanUtils.copyProperties(facultyDetails,facultyModel);
+                    facultyModelList.add(facultyModel);
                 }
-                facultyModel.setSubjects(subjectModels);
             }
-            return facultyModel;
+            return facultyModelList;
         }
         return null;
     }
@@ -140,7 +143,6 @@ public class CollegeServiceImpl implements CollegeService {
         Optional<CollegeEntity> collegeEntity = collegeRepository.findById(code);
         if (collegeEntity.isPresent()) {
             List<BranchEntity> branchEntities = collegeEntity.get().getBranchDetails();
-            List<CollegeEntity> collegeEntities = new ArrayList<>();
             BranchEntity branchEntity = new BranchEntity();
             if (null != branchModel.getBranchCode()) {
                 branchEntity.setBranchCode(branchModel.getBranchCode());
@@ -155,22 +157,29 @@ public class CollegeServiceImpl implements CollegeService {
                     SubjectEntity subjectEntity = new SubjectEntity();
                     subjectEntity.setSubjectCode(subject.getSubjectCode());
                     subjectEntity.setName(subject.getName());
+                    subjectEntity.setBranchDetails(branchEntity);
                     subjectEntities.add(subjectEntity);
                 }
+                branchEntity.setSubjectDetails(subjectEntities);
+                subjectRepository.saveAll(subjectEntities);
+                branchRepository.save(branchEntity);
+                System.out.println("subject saved");
             }
+            branchEntities.add(branchEntity);
+            System.out.println("branch saved");
             collegeEntity.get().setBranchDetails(branchEntities);
-            collegeEntities.add(collegeEntity.get());
-            collegeRepository.saveAll(collegeEntities);
+            collegeRepository.save(collegeEntity.get());
+            return "branch updated";
         }
-        return "there is no such branch";
+        throw new DoesnotExitsException("there is no such branch");
     }
 
     @Override
-    public String removeBranchFromCollege(String collegeCode, String branchCode) {
+    public String   removeBranchFromCollege(String collegeCode, String branchCode) {
         Optional<CollegeEntity> collegeEntity = collegeRepository.findById(collegeCode);
         if (collegeEntity.isPresent()){
             List<BranchEntity> branchDetails = collegeEntity.get().getBranchDetails();
-            if(null != branchCode){
+            if(!branchCode.isEmpty()){
             Optional<BranchEntity> branchEntity = branchRepository.findById(branchCode);
             if (branchDetails.contains(branchEntity.get())){
             branchDetails.remove(branchEntity.get());
@@ -178,9 +187,9 @@ public class CollegeServiceImpl implements CollegeService {
             collegeRepository.save(collegeEntity.get());
                 return "branch deleted from college";
             }
-                return "there is no such branch in college";
+                throw new DoesnotExitsException("there is no such branch in college");
         }
-        return "branch shouldn't null";
+        throw new InvalidDetailsException("branch shouldn't null");
     }
-        return "College not found";
+        throw new DoesnotExitsException("College not found");
 }}

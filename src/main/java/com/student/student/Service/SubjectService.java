@@ -11,7 +11,7 @@ public interface SubjectService {
     SubjectModel getSubjectByCode(String code);
     List<SubjectModel> getAllSubjectsForBranch(String branchCode);
     String updateFacultyForSubject(FacultyModel facultyModel, String subjectCode);
-    String removeFacultyFromSubject(String facultyCode, String subjectCode);
+    String removeFacultyFromSubject(String subjectCode, String facultyCode);
     String removeSubject(String subjectCode);
-    List<BranchModel> getBranchForSubject(String subjectCode);
+    BranchModel getBranchForSubject(String subjectCode);
 }

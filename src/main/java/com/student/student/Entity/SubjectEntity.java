@@ -1,5 +1,6 @@
 package com.student.student.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -13,6 +14,7 @@ public class SubjectEntity {
     private String subjectCode;
     private String name;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     private BranchEntity branchDetails;
     @ManyToOne(cascade = CascadeType.ALL)

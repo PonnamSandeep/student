@@ -1,6 +1,7 @@
 package com.student.student.Service.impl;
 
 import com.student.student.Entity.*;
+import com.student.student.Exception.*;
 import com.student.student.Model.*;
 import com.student.student.Repository.BranchRepository;
 import com.student.student.Repository.FacultyRepository;
@@ -24,13 +25,14 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public String createFaculty(FacultyModel facultyModel) {
-        Optional<FacultyEntity> facultyEntity = facultyRepository.findById(facultyModel.getId());
-        if (facultyEntity.isEmpty()) {
+        Optional<FacultyEntity> faculty = facultyRepository.findById(facultyModel.getId());
+        if (faculty.isEmpty()) {
             if (null != facultyModel.getId() && null != facultyModel.getName()) {
-                facultyEntity.get().setId(facultyModel.getId());
-                facultyEntity.get().setName(facultyModel.getName());
-                facultyEntity.get().setPhoneNo(facultyModel.getPhoneNo());
-                facultyEntity.get().setSalary(facultyModel.getSalary());
+                FacultyEntity facultyEntity = new FacultyEntity();
+                facultyEntity.setId(facultyModel.getId());
+                facultyEntity.setName(facultyModel.getName());
+                facultyEntity.setPhoneNo(facultyModel.getPhoneNo());
+                facultyEntity.setSalary(facultyModel.getSalary());
                 if (null != facultyModel.getSubjects()) {
                     Set<SubjectModel> subjects = facultyModel.getSubjects();
                     Set<SubjectEntity> subjectEntities = new HashSet<>();
@@ -40,16 +42,16 @@ public class FacultyServiceImpl implements FacultyService {
                         subjectEntity.setName(subject.getName());
                         subjectEntities.add(subjectEntity);
                     }
-                    facultyEntity.get().setSubjects(subjectEntities);
+                    facultyEntity.setSubjects(subjectEntities);
                     subjectRepository.saveAll(subjectEntities);
                 }
-                facultyRepository.save(facultyEntity.get());
+                facultyRepository.save(facultyEntity);
                 return "faculty created";
             } else {
-                return "please enter valid details";
+                throw new InvalidDetailsException("please enter valid details");
             }
         }
-        return "faculty already existed";
+        throw new AlreadyExistsException("faculty already existed");
     }
 
     @Override
@@ -134,7 +136,7 @@ public class FacultyServiceImpl implements FacultyService {
             facultyEntities.add(facultyEntity.get());
             facultyRepository.saveAll(facultyEntities);
         }
-        return "there is no such faculty";
+        throw new DoesnotExitsException("there is no such faculty");
     }
 
     @Override
@@ -148,7 +150,7 @@ public class FacultyServiceImpl implements FacultyService {
                 }
             }
         }
-        return "faculty doesn't exist";
+        throw new DoesnotExitsException("faculty doesn't exist");
     }
 
     @Override
@@ -159,10 +161,10 @@ public class FacultyServiceImpl implements FacultyService {
             if (facultyRepository.findById(Id).isEmpty()) {
                 return "faculty deleted from college";
             } else {
-                return "unable to delete faculty";
+                throw new FailedException("unable to delete faculty");
             }
         }
-        return "there is no such faculty in college";
+        throw new DoesnotExitsException("there is no such faculty in college");
     }
 
     @Override

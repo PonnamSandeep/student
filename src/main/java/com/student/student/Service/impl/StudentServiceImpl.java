@@ -3,9 +3,7 @@ package com.student.student.Service.impl;
 import com.student.student.Entity.BranchEntity;
 import com.student.student.Entity.CollegeEntity;
 import com.student.student.Entity.StudentEntity;
-import com.student.student.Exception.InvalidDetailsException;
-import com.student.student.Exception.InvalidStudentDetailsException;
-import com.student.student.Exception.StudentNotFoundException;
+import com.student.student.Exception.*;
 import com.student.student.Model.BranchModel;
 import com.student.student.Model.CollegeModel;
 import com.student.student.Model.StudentModel;
@@ -82,7 +80,7 @@ public class StudentServiceImpl implements StudentService {
       }
       }
       else {
-          return "the student already exists with this "+studentModel.getId();
+          throw new AlreadyExistsException("student already exits");
       }
   }
   public StudentModel loginStudent(String id, String password){
@@ -99,16 +97,16 @@ public class StudentServiceImpl implements StudentService {
                   return studentModel;
               } else {
                   System.out.print("password incorrect");
-                  return null;
+              throw new InvalidDetailsException("password incorrect");
               }
           } else {
               System.out.print("student doesn't exist");
-              return null;
+              throw new AlreadyExistsException("student already exists");
           }
       }
       else {
           System.out.print("invalid data");
-          return null;
+          throw new InvalidDetailsException("please provide valid data");
       }
   }
   public String updateStudent(StudentModel studentModel){
@@ -135,7 +133,7 @@ public class StudentServiceImpl implements StudentService {
 
             }
             else {
-                return "Please provide valid branch details";
+                throw new InvalidDetailsException("Please provide valid branch details");
             }
         }
         response.append("updated successfully");
@@ -143,21 +141,23 @@ public class StudentServiceImpl implements StudentService {
         return response.toString();
       }
       else {
-         return "student doesn't exist with this "+studentModel.getId();
+         throw new StudentNotFoundException("student doesn't exist with this "+studentModel.getId());
       }
   }
   public String deleteStudentById(String id){
       if(null != id){
           Optional<StudentEntity> studentEntity = studentRepository.findById(id);
+          studentEntity.get().getBranchDetails().getStudentsDetails().remove(studentEntity.get());
+          studentEntity.get().setBranchDetails(null);
           studentRepository.delete(studentEntity.get());
           if (studentRepository.findById(id).isEmpty()){
           return "student deleted";
           }
           else {
-              return "unable to delete";
+              throw new FailedException("unable to delete");
           }
       }
-      return "please provide id";
+      throw new IncompleteException("please provide id");
   }
 
     public StudentRepository getStudentRepository() {
